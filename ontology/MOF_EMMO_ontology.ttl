@@ -1,0 +1,966 @@
+
+@prefix : <http://emmo.info/domain-mof/mof-ontology#> .
+@prefix syn: <http://emmo.info/domain-mof/synthesis#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://emmo.info/domain-mof/mof-ontology> a owl:Ontology ;
+    owl:imports <https://w3id.org/emmo> ;
+    rdfs:comment "Extended MOF ontology with synthesis information, data provenance, publications, and material properties" .
+
+# ===========================
+# Original Classes (from base ontology)
+# ===========================
+
+:CO2CaptureCapability a owl:Class ;
+    rdfs:subClassOf :Capability .
+
+:CatalysisProcess a owl:Class ;
+    rdfs:subClassOf :ApplicationProcess .
+
+:GasStorageProcess a owl:Class ;
+    rdfs:subClassOf :ApplicationProcess .
+
+:HydrogenStorageCapability a owl:Class ;
+    rdfs:subClassOf :Capability .
+
+:LuminescentSensingCapability a owl:Class ;
+    rdfs:subClassOf :Capability .
+
+:MethaneStorageCapability a owl:Class ;
+    rdfs:subClassOf :Capability .
+
+:PhotocatalyticCapability a owl:Class ;
+    rdfs:subClassOf :Capability .
+
+:SensingProcess a owl:Class ;
+    rdfs:subClassOf :ApplicationProcess .
+
+:MetalCluster a owl:Class ;
+    rdfs:subClassOf <https://w3id.org/emmo#EMMO_4207e895_8b83_4318_996a_72cfb32acd94> .
+
+:OrganicLinker a owl:Class ;
+    rdfs:subClassOf <https://w3id.org/emmo#EMMO_3397f270_dfc1_4500_8f6f_4d0d85ac5f71> .
+
+:MOF a owl:Class ;
+    rdfs:subClassOf <https://w3id.org/emmo#EMMO_4207e895_8b83_4318_996a_72cfb32acd94> ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :hasLinker ;
+        owl:minCardinality 1
+    ] ;
+    rdfs:comment "Metal-Organic Framework material - must have at least one linker" .
+
+:ApplicationProcess a owl:Class ;
+    rdfs:subClassOf <https://w3id.org/emmo#EMMO_43e9a05d_98af_41b4_92f6_00f79a09bfce> .
+
+:Capability a owl:Class ;
+    rdfs:subClassOf <https://w3id.org/emmo#EMMO_b7bcff25_ffc3_474e_9ab5_01b1664bd4ba> .
+
+# ===========================
+# Extended Classes for Synthesis
+# ===========================
+
+syn:SynthesisProcess a owl:Class ;
+    rdfs:subClassOf <https://w3id.org/emmo#EMMO_43e9a05d_98af_41b4_92f6_00f79a09bfce> ;
+    rdfs:comment "A process that synthesizes a MOF material" .
+
+syn:SynthesisCondition a owl:Class ;
+    rdfs:subClassOf <https://w3id.org/emmo#EMMO_b7bcff25_ffc3_474e_9ab5_01b1664bd4ba> ;
+    rdfs:comment "Physical conditions under which synthesis occurs (temperature, pressure, time)" .
+
+syn:SynthesisProcedure a owl:Class ;
+    rdfs:subClassOf <https://w3id.org/emmo#EMMO_c5ddfdba_c074_4aa4_ad6b_1ac4942d300d> ;
+    rdfs:comment "Textual description of synthesis procedure" .
+
+:HypotheticalMOF a owl:Class ;
+    rdfs:subClassOf :MOF ;
+    rdfs:comment "A computationally designed MOF that has not been experimentally synthesized" .
+
+:ExperimentalMOF a owl:Class ;
+    rdfs:subClassOf :MOF ;
+    rdfs:comment "A MOF that has been experimentally synthesized and characterized" .
+
+syn:DataProvenance a owl:Class ;
+    rdfs:subClassOf <https://w3id.org/emmo#EMMO_c5ddfdba_c074_4aa4_ad6b_1ac4942d300d> ;
+    rdfs:comment "Information about the source and quality of data" .
+
+syn:MetalPrecursor a owl:Class ;
+    rdfs:subClassOf :Chemical ;
+    rdfs:comment "Metal-containing chemical used as precursor in MOF synthesis" .
+
+syn:LinkerPrecursor a owl:Class ;
+    rdfs:subClassOf :Chemical ;
+    rdfs:comment "Organic molecule used as linker precursor in MOF synthesis" .
+
+syn:Solvent a owl:Class ;
+    rdfs:subClassOf :Chemical ;
+    rdfs:comment "Solvent used in MOF synthesis" .
+
+syn:Additive a owl:Class ;
+    rdfs:subClassOf :Chemical ;
+    rdfs:comment "Additive chemical used in MOF synthesis" .
+
+:Chemical a owl:Class ;
+    rdfs:subClassOf <https://w3id.org/emmo#EMMO_4207e895_8b83_4318_996a_72cfb32acd94> ;
+    rdfs:comment "Chemical substance" .
+
+:Topology a owl:Class ;
+    rdfs:subClassOf <https://w3id.org/emmo#EMMO_b7bcff25_ffc3_474e_9ab5_01b1664bd4ba> ;
+    rdfs:comment "MOF framework topology (e.g., pcu, fcu, dia)" .
+
+# ===========================
+# Functionalization Classes
+# ===========================
+
+syn:Functionalization a owl:Class ;
+    rdfs:subClassOf <https://w3id.org/emmo#EMMO_43e9a05d_98af_41b4_92f6_00f79a09bfce> ;
+    rdfs:comment "Post-synthetic modification of a MOF structure" .
+
+syn:FunctionalizedMOF a owl:Class ;
+    rdfs:subClassOf :MOF ;
+    rdfs:comment "A MOF that has been functionalized or modified post-synthesis" .
+
+syn:FunctionalizationType a owl:Class ;
+    rdfs:subClassOf <https://w3id.org/emmo#EMMO_b7bcff25_ffc3_474e_9ab5_01b1664bd4ba> ;
+    rdfs:comment "Type of functionalization applied to MOF" .
+
+syn:AmineFunctionalization a owl:Class ;
+    rdfs:subClassOf syn:FunctionalizationType ;
+    rdfs:comment "Functionalization with amine groups (e.g., for CO2 capture)" .
+
+syn:MetalSubstitution a owl:Class ;
+    rdfs:subClassOf syn:FunctionalizationType ;
+    rdfs:comment "Substitution of metal centers in MOF structure" .
+
+syn:LinkerModification a owl:Class ;
+    rdfs:subClassOf syn:FunctionalizationType ;
+    rdfs:comment "Chemical modification of organic linkers" .
+
+syn:Grafting a owl:Class ;
+    rdfs:subClassOf syn:FunctionalizationType ;
+    rdfs:comment "Grafting of functional groups onto MOF surface" .
+
+syn:MetalExchange a owl:Class ;
+    rdfs:subClassOf syn:FunctionalizationType ;
+    rdfs:comment "Exchange of metal ions in MOF structure" .
+
+# ===========================
+# New Capabilities
+# ===========================
+
+:DACCapability a owl:Class ;
+    rdfs:subClassOf :Capability ;
+    rdfs:comment "Direct Air Capture capability for removing CO2 from ambient air" .
+
+:CatalysisCapability a owl:Class ;
+    rdfs:subClassOf :Capability ;
+    rdfs:comment "General catalysis capability" .
+
+# ===========================
+# NEW: Publication/Abstract Classes
+# ===========================
+
+:Publication a owl:Class ;
+    rdfs:subClassOf <https://w3id.org/emmo#EMMO_c5ddfdba_c074_4aa4_ad6b_1ac4942d300d> ;
+    rdfs:comment "Scientific publication or abstract about a MOF" .
+
+:Abstract a owl:Class ;
+    rdfs:subClassOf :Publication ;
+    rdfs:comment "Abstract from a scientific publication" .
+
+# ===========================
+# NEW: Material Property Classes
+# ===========================
+
+:MaterialProperty a owl:Class ;
+    rdfs:subClassOf <https://w3id.org/emmo#EMMO_b7bcff25_ffc3_474e_9ab5_01b1664bd4ba> ;
+    rdfs:comment "Generic material property (structural, computational, physical, etc.)" .
+
+:StructuralProperty a owl:Class ;
+    rdfs:subClassOf :MaterialProperty ;
+    rdfs:comment "Structural property of a MOF (e.g., space group, unit cell, density)" .
+
+:ComputationalProperty a owl:Class ;
+    rdfs:subClassOf :MaterialProperty ;
+    rdfs:comment "Computationally derived property (e.g., band gap, PLD, LCD, ASA)" .
+
+:PhysicalProperty a owl:Class ;
+    rdfs:subClassOf :MaterialProperty ;
+    rdfs:comment "Physical property of a MOF (e.g., thermal stability, magnetic properties)" .
+
+:FreeEnergy a owl:Class ;
+    rdfs:subClassOf :ComputationalProperty ;
+    rdfs:comment "Free energy of the MOF structure (e.g., per atom)" .
+
+:StrainEnergy a owl:Class ;
+    rdfs:subClassOf :ComputationalProperty ;
+    rdfs:comment "Strain energy of the MOF structure (e.g., per atom)" .
+
+# ===========================
+# REASONING ENHANCEMENTS: Disjoint Classes
+# ===========================
+
+:ExperimentalMOF owl:disjointWith :HypotheticalMOF .
+
+:StructuralProperty owl:disjointWith :ComputationalProperty .
+:StructuralProperty owl:disjointWith :PhysicalProperty .
+:ComputationalProperty owl:disjointWith :PhysicalProperty .
+
+# ===========================
+# Original Object Properties
+# ===========================
+
+:hasCapability a owl:ObjectProperty ;
+    rdfs:domain :MOF ;
+    rdfs:range :Capability ;
+    rdfs:subPropertyOf <https://w3id.org/emmo#EMMO_e1097637_70d2_4895_973f_2396f04fa204> .
+
+:hasLinker a owl:ObjectProperty ;
+    rdfs:domain :MOF ;
+    rdfs:range :OrganicLinker ;
+    rdfs:subPropertyOf <https://w3id.org/emmo#EMMO_9380ab64_0363_4804_b13f_3a8a94119a76> .
+
+:hasMetalNode a owl:ObjectProperty ;
+    rdfs:domain :MOF ;
+    rdfs:range :MetalCluster ;
+    rdfs:subPropertyOf <https://w3id.org/emmo#EMMO_9380ab64_0363_4804_b13f_3a8a94119a76> .
+
+:hasTopology a owl:ObjectProperty ;
+    rdfs:domain :MOF ;
+    rdfs:range :Topology ;
+    rdfs:comment "Links a MOF to its framework topology" .
+
+:isRealizedIn a owl:ObjectProperty ;
+    rdfs:domain :Capability ;
+    rdfs:range :ApplicationProcess .
+
+# ===========================
+# NEW: Publication Object Properties
+# ===========================
+
+:hasPublication a owl:ObjectProperty ;
+    rdfs:domain :MOF ;
+    rdfs:range :Publication ;
+    rdfs:comment "Links a MOF to publications about it" .
+
+:hasAbstract a owl:ObjectProperty ;
+    rdfs:domain :MOF ;
+    rdfs:range :Abstract ;
+    rdfs:comment "Links a MOF to abstracts from publications" .
+
+# ===========================
+# NEW: Material Property Object Properties
+# ===========================
+
+:hasProperty a owl:ObjectProperty ;
+    rdfs:domain :MOF ;
+    rdfs:range :MaterialProperty ;
+    rdfs:comment "Links a MOF to its material properties" .
+
+:hasStructuralProperty a owl:ObjectProperty ;
+    rdfs:domain :MOF ;
+    rdfs:range :StructuralProperty ;
+    rdfs:comment "Links a MOF to its structural properties" .
+
+:hasComputationalProperty a owl:ObjectProperty ;
+    rdfs:domain :MOF ;
+    rdfs:range :ComputationalProperty ;
+    rdfs:comment "Links a MOF to its computational properties" .
+
+:hasPhysicalProperty a owl:ObjectProperty ;
+    rdfs:domain :MOF ;
+    rdfs:range :PhysicalProperty ;
+    rdfs:comment "Links a MOF to its physical properties" .
+
+# ===========================
+# Extended Object Properties for Synthesis
+# ===========================
+
+syn:hasSynthesisProcess a owl:ObjectProperty ;
+    rdfs:domain :MOF ;
+    rdfs:range syn:SynthesisProcess ;
+    rdfs:subPropertyOf <https://w3id.org/emmo#EMMO_17e27c22_37e1_468c_9dd7_95e137f73e7f> ;
+    rdfs:comment "Links a MOF to its synthesis process" .
+
+syn:hasCondition a owl:ObjectProperty ;
+    rdfs:domain syn:SynthesisProcess ;
+    rdfs:range syn:SynthesisCondition ;
+    rdfs:comment "Links a synthesis process to its conditions" .
+
+syn:usesSolvent a owl:ObjectProperty ;
+    rdfs:domain syn:SynthesisProcess ;
+    rdfs:range syn:Solvent ;
+    rdfs:comment "Links a synthesis process to solvents used" .
+
+syn:usesMetalPrecursor a owl:ObjectProperty ;
+    rdfs:domain syn:SynthesisProcess ;
+    rdfs:range syn:MetalPrecursor ;
+    rdfs:comment "Links a synthesis process to metal precursors used" .
+
+syn:usesLinkerPrecursor a owl:ObjectProperty ;
+    rdfs:domain syn:SynthesisProcess ;
+    rdfs:range syn:LinkerPrecursor ;
+    rdfs:comment "Links a synthesis process to linker precursors used" .
+
+syn:usesAdditive a owl:ObjectProperty ;
+    rdfs:domain syn:SynthesisProcess ;
+    rdfs:range syn:Additive ;
+    rdfs:comment "Links a synthesis process to additive chemicals used" .
+
+syn:hasProcedure a owl:ObjectProperty ;
+    rdfs:domain syn:SynthesisProcess ;
+    rdfs:range syn:SynthesisProcedure ;
+    rdfs:comment "Links a synthesis process to its textual procedure" .
+
+syn:hasDataSource a owl:ObjectProperty ;
+    rdfs:range syn:DataProvenance ;
+    rdfs:comment "Links any entity to its data provenance" .
+
+syn:similarSynthesisTo a owl:ObjectProperty ;
+    rdfs:domain :MOF ;
+    rdfs:range :MOF ;
+    owl:inverseOf syn:similarSynthesisTo ;
+    rdfs:comment "Links MOFs with similar synthesis procedures" .
+
+syn:hasFunctionalization a owl:ObjectProperty ;
+    rdfs:domain :MOF ;
+    rdfs:range syn:Functionalization ;
+    rdfs:comment "Links a MOF to its functionalization process" .
+
+syn:hasFunctionalizationType a owl:ObjectProperty ;
+    rdfs:domain syn:Functionalization ;
+    rdfs:range syn:FunctionalizationType ;
+    rdfs:comment "Links functionalization to its type" .
+
+syn:derivedFrom a owl:ObjectProperty ;
+    rdfs:domain syn:FunctionalizedMOF ;
+    rdfs:range :MOF ;
+    rdfs:comment "Links functionalized MOF to its parent structure" .
+
+syn:usesFunctionalGroup a owl:ObjectProperty ;
+    rdfs:domain syn:Functionalization ;
+    rdfs:range :Chemical ;
+    rdfs:comment "Links functionalization to the functional group used" .
+
+# ===========================
+# REASONING ENHANCEMENTS: Inverse Properties
+# ===========================
+
+:usedInMOF a owl:ObjectProperty ;
+    owl:inverseOf :hasLinker ;
+    rdfs:comment "Inverse of hasLinker - links linker to MOFs that use it" .
+
+:isComponentOf a owl:ObjectProperty ;
+    owl:inverseOf :hasMetalNode ;
+    rdfs:comment "Inverse of hasMetalNode - links metal cluster to MOFs" .
+
+:hasMOF a owl:ObjectProperty ;
+    owl:inverseOf syn:hasSynthesisProcess ;
+    rdfs:comment "Inverse of hasSynthesisProcess - links synthesis process to its MOF" .
+
+:usedInSynthesis a owl:ObjectProperty ;
+    owl:inverseOf syn:usesSolvent ;
+    rdfs:comment "Inverse of usesSolvent - links solvent to synthesis processes that use it" .
+
+:usedAsMetalPrecursorIn a owl:ObjectProperty ;
+    owl:inverseOf syn:usesMetalPrecursor ;
+    rdfs:comment "Inverse of usesMetalPrecursor - links metal precursor to synthesis processes" .
+
+:usedAsLinkerPrecursorIn a owl:ObjectProperty ;
+    owl:inverseOf syn:usesLinkerPrecursor ;
+    rdfs:comment "Inverse of usesLinkerPrecursor - links linker precursor to synthesis processes" .
+
+:usedAsAdditiveIn a owl:ObjectProperty ;
+    owl:inverseOf syn:usesAdditive ;
+    rdfs:comment "Inverse of usesAdditive - links additive to synthesis processes that use it" .
+
+:hasPropertyOwner a owl:ObjectProperty ;
+    owl:inverseOf :hasProperty ;
+    rdfs:comment "Inverse of hasProperty - links material property to its MOF" .
+
+:hasStructuralPropertyOwner a owl:ObjectProperty ;
+    owl:inverseOf :hasStructuralProperty ;
+    rdfs:comment "Inverse of hasStructuralProperty - links structural property to its MOF" .
+
+:hasComputationalPropertyOwner a owl:ObjectProperty ;
+    owl:inverseOf :hasComputationalProperty ;
+    rdfs:comment "Inverse of hasComputationalProperty - links computational property to its MOF" .
+
+:hasPhysicalPropertyOwner a owl:ObjectProperty ;
+    owl:inverseOf :hasPhysicalProperty ;
+    rdfs:comment "Inverse of hasPhysicalProperty - links physical property to its MOF" .
+
+:describedIn a owl:ObjectProperty ;
+    owl:inverseOf :hasPublication ;
+    rdfs:comment "Inverse of hasPublication - links publication to MOFs it describes" .
+
+:describedInAbstract a owl:ObjectProperty ;
+    owl:inverseOf :hasAbstract ;
+    rdfs:comment "Inverse of hasAbstract - links abstract to MOFs it describes" .
+
+# ===========================
+# REASONING ENHANCEMENTS: Transitive Properties
+# ===========================
+
+:hasComponent a owl:TransitiveProperty ;
+    rdfs:comment "Transitive part-whole relationship for MOF components" .
+
+:partOf a owl:TransitiveProperty, owl:ObjectProperty ;
+    owl:inverseOf :hasComponent ;
+    rdfs:comment "Transitive inverse of hasComponent" .
+
+# ===========================
+# REASONING ENHANCEMENTS: Property Chains
+# ===========================
+
+:directlyUsesSolvent a owl:ObjectProperty ;
+    owl:propertyChainAxiom (syn:hasSynthesisProcess syn:usesSolvent) ;
+    rdfs:comment "If MOF has synthesis process that uses solvent, infer MOF directly uses that solvent" .
+
+:hasSynthesisCondition a owl:ObjectProperty ;
+    owl:propertyChainAxiom (syn:hasSynthesisProcess syn:hasCondition) ;
+    rdfs:comment "Infer MOF has synthesis conditions through synthesis process" .
+
+:hasSynthesisProcedure a owl:ObjectProperty ;
+    owl:propertyChainAxiom (syn:hasSynthesisProcess syn:hasProcedure) ;
+    rdfs:comment "Infer MOF has synthesis procedure through synthesis process" .
+
+# ===========================
+# Original Datatype Properties
+# ===========================
+
+:hasValue a owl:DatatypeProperty ;
+    rdfs:domain :Capability ;
+    rdfs:range xsd:decimal .
+
+# ===========================
+# NEW: MOF Identifier Datatype Properties
+# ===========================
+
+:hasCSDCode a owl:DatatypeProperty ;
+    rdfs:domain :MOF ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Cambridge Structural Database reference code" .
+
+:hasMPID a owl:DatatypeProperty ;
+    rdfs:domain :MOF ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Materials Project identifier" .
+
+:hasMOFid a owl:DatatypeProperty ;
+    rdfs:domain :MOF ;
+    rdfs:range xsd:string ;
+    rdfs:comment "MOFid structural descriptor (SMILES-like notation for MOF topology and chemistry)" .
+
+:hasMOFkey a owl:DatatypeProperty ;
+    rdfs:domain :MOF ;
+    rdfs:range xsd:string ;
+    rdfs:comment "MOFkey identifier (compact hash-based identifier for MOF topology)" .
+
+:hasFormula a owl:DatatypeProperty ;
+    rdfs:domain :MOF ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Chemical formula of the MOF" .
+
+:hasCanonicalName a owl:DatatypeProperty ;
+    rdfs:domain :MOF ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Canonical name of the MOF" .
+
+:hasAlternativeName a owl:DatatypeProperty ;
+    rdfs:domain :MOF ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Alternative name for the MOF (repeatable property)" .
+
+# ===========================
+# NEW: Chemical Datatype Properties
+# ===========================
+
+:hasSMILES a owl:DatatypeProperty ;
+    rdfs:domain :Chemical ;
+    rdfs:range xsd:string ;
+    rdfs:comment "SMILES representation of chemical structure" .
+
+:hasChemicalName a owl:DatatypeProperty ;
+    rdfs:domain :Chemical ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Name of the chemical" .
+
+:hasCanonicalSMILES a owl:DatatypeProperty ;
+    rdfs:domain :Chemical ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Canonical SMILES representation" .
+
+:hasAlternativeChemicalName a owl:DatatypeProperty ;
+    rdfs:domain :Chemical ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Alternative name for the chemical (repeatable property)" .
+
+# ===========================
+# NEW: Publication Datatype Properties
+# ===========================
+
+:publicationTitle a owl:DatatypeProperty ;
+    rdfs:domain :Publication ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Title of the publication" .
+
+:publicationAbstract a owl:DatatypeProperty ;
+    rdfs:domain :Publication ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Abstract text from the publication" .
+
+:publicationAuthors a owl:DatatypeProperty ;
+    rdfs:domain :Publication ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Authors of the publication" .
+
+:publicationJournal a owl:DatatypeProperty ;
+    rdfs:domain :Publication ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Journal where the publication appeared" .
+
+:publicationDOI a owl:DatatypeProperty ;
+    rdfs:domain :Publication ;
+    rdfs:range xsd:anyURI ;
+    rdfs:comment "DOI of the publication" .
+
+# ===========================
+# NEW: Material Property Datatype Properties
+# ===========================
+
+:propertyName a owl:DatatypeProperty ;
+    rdfs:domain :MaterialProperty ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Name of the property (e.g., 'Density', 'Band gap', 'CO2 uptake')" .
+
+:propertyValue a owl:DatatypeProperty ;
+    rdfs:domain :MaterialProperty ;
+    rdfs:range xsd:decimal ;
+    rdfs:comment "Numeric value of the property" .
+
+:propertyUnits a owl:DatatypeProperty ;
+    rdfs:domain :MaterialProperty ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Units of the property value" .
+
+:propertyConditions a owl:DatatypeProperty ;
+    rdfs:domain :MaterialProperty ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Conditions under which the property was measured (e.g., temperature, pressure)" .
+
+# ===========================
+# Extended Datatype Properties for Synthesis
+# ===========================
+
+syn:hasTemperature a owl:DatatypeProperty ;
+    rdfs:domain syn:SynthesisCondition ;
+    rdfs:range xsd:decimal ;
+    rdfs:comment "Synthesis temperature in Celsius" .
+
+syn:hasPressure a owl:DatatypeProperty ;
+    rdfs:domain syn:SynthesisCondition ;
+    rdfs:range xsd:decimal ;
+    rdfs:comment "Synthesis pressure in bar" .
+
+syn:hasReactionTime a owl:DatatypeProperty ;
+    rdfs:domain syn:SynthesisCondition ;
+    rdfs:range xsd:decimal ;
+    rdfs:comment "Reaction time in hours" .
+
+syn:hasYield a owl:DatatypeProperty ;
+    rdfs:domain syn:SynthesisProcess ;
+    rdfs:range xsd:decimal ;
+    rdfs:comment "Synthesis yield as percentage" .
+
+syn:hasCounterion a owl:DatatypeProperty ;
+    rdfs:domain syn:SynthesisProcess ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Counterion used in MOF synthesis (repeatable property, e.g., Cl, NO3, F)" .
+
+syn:isHypothetical a owl:DatatypeProperty ;
+    rdfs:domain :MOF ;
+    rdfs:range xsd:boolean ;
+    rdfs:comment "Indicates if MOF is hypothetical (true) or experimental (false)" .
+
+syn:synthesisText a owl:DatatypeProperty ;
+    rdfs:domain syn:SynthesisProcedure ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Full textual description of synthesis procedure" .
+
+syn:hasSynthesisMethod a owl:DatatypeProperty ;
+    rdfs:domain syn:SynthesisProcess ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Synthesis method name (e.g., 'Solvothermal', 'Hydrothermal')" .
+
+syn:sourceName a owl:DatatypeProperty ;
+    rdfs:domain syn:DataProvenance ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Name of the data source (e.g., DigiMOF, ChemUnity, MaterialsProject)" .
+
+syn:sourceURL a owl:DatatypeProperty ;
+    rdfs:domain syn:DataProvenance ;
+    rdfs:range xsd:anyURI ;
+    rdfs:comment "URL of the data source" .
+
+syn:dataQuality a owl:DatatypeProperty ;
+    rdfs:domain syn:DataProvenance ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Data quality indicator (high, medium, low)" .
+
+syn:dateAdded a owl:DatatypeProperty ;
+    rdfs:domain syn:DataProvenance ;
+    rdfs:range xsd:dateTime ;
+    rdfs:comment "Date when data was added to the knowledge graph" .
+
+syn:functionalizationMethod a owl:DatatypeProperty ;
+    rdfs:domain syn:Functionalization ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Description of functionalization method" .
+
+syn:functionalizationDegree a owl:DatatypeProperty ;
+    rdfs:domain syn:Functionalization ;
+    rdfs:range xsd:decimal ;
+    rdfs:comment "Degree or extent of functionalization (e.g., loading percentage)" .
+
+syn:functionalGroupName a owl:DatatypeProperty ;
+    rdfs:domain syn:Functionalization ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Name of the functional group added (e.g., 'mmen', 'NH2', 'dmen')" .
+
+syn:functionalGroupSMILES a owl:DatatypeProperty ;
+    rdfs:domain syn:Functionalization ;
+    rdfs:range xsd:string ;
+    rdfs:comment "SMILES representation of the functional group" .
+
+# ===========================
+# NEW: Metal Cluster Datatype Properties
+# ===========================
+
+:hasMetalElement a owl:DatatypeProperty ;
+    rdfs:domain :MetalCluster ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Metal element in the cluster (repeatable property)" .
+
+:hasClusterFormula a owl:DatatypeProperty ;
+    rdfs:domain :MetalCluster ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Chemical formula of the metal cluster" .
+
+:hasClusterDescription a owl:DatatypeProperty ;
+    rdfs:domain :MetalCluster ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Description of the metal cluster" .
+
+:coordinationNumber a owl:DatatypeProperty ;
+    rdfs:domain :MetalCluster ;
+    rdfs:range xsd:integer ;
+    rdfs:comment "Coordination number of the metal cluster" .
+
+# ===========================
+# NEW: Topology Datatype Properties
+# ===========================
+
+:topologyCode a owl:DatatypeProperty ;
+    rdfs:domain :Topology ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Topology code (e.g., 'pcu', 'fcu', 'dia')" .
+
+:topologyDescription a owl:DatatypeProperty ;
+    rdfs:domain :Topology ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Description of the topology" .
+
+# ===========================
+# REASONING ENHANCEMENTS: Equivalent Classes (for synonym matching)
+# ===========================
+# Note: These are examples - add more as needed based on your data
+
+:TerephthalicAcidLinker a owl:Class ;
+    rdfs:subClassOf :OrganicLinker ;
+    rdfs:comment "Terephthalic acid organic linker" .
+
+:BDC a owl:Class ;
+    owl:equivalentClass :TerephthalicAcidLinker ;
+    rdfs:comment "BDC (benzene-1,4-dicarboxylate) is equivalent to terephthalic acid linker" .
+
+:Benzenedicarboxylate a owl:Class ;
+    owl:equivalentClass :TerephthalicAcidLinker ;
+    rdfs:comment "Benzenedicarboxylate is equivalent to terephthalic acid linker" .
+
+# Add more equivalent class definitions as you identify synonyms in your data
+
+# ===========================
+# REASONING ENHANCEMENTS: Capability Inference Rules
+# ===========================
+# These rules automatically infer capabilities based on properties and functionalizations
+
+# Rule 1: CO2 Capture Capability from Uptake Properties
+:MOFWithCO2Uptake a owl:Class ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf (
+            :MOF
+            [ a owl:Restriction ;
+              owl:onProperty :hasComputationalProperty ;
+              owl:someValuesFrom [
+                  a owl:Class ;
+                  owl:intersectionOf (
+                      :ComputationalProperty
+                      [ a owl:Restriction ;
+                        owl:onProperty :propertyName ;
+                        owl:hasValue "CO2 uptake"^^xsd:string
+                      ]
+                  )
+              ]
+            ]
+        )
+    ] ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :hasCapability ;
+        owl:someValuesFrom :CO2CaptureCapability
+    ] ;
+    rdfs:comment "MOFs with CO2 uptake properties have CO2 capture capability" .
+
+# Rule 2: CO2 Capture Capability from Binding Energy
+:MOFWithCO2Binding a owl:Class ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf (
+            :MOF
+            [ a owl:Restriction ;
+              owl:onProperty :hasComputationalProperty ;
+              owl:someValuesFrom [
+                  a owl:Class ;
+                  owl:intersectionOf (
+                      :ComputationalProperty
+                      [ a owl:Restriction ;
+                        owl:onProperty :propertyName ;
+                        owl:hasValue "CO2 binding energy"^^xsd:string
+                      ]
+                  )
+              ]
+            ]
+        )
+    ] ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :hasCapability ;
+        owl:someValuesFrom :CO2CaptureCapability
+    ] ;
+    rdfs:comment "MOFs with CO2 binding energy have CO2 capture capability" .
+
+# Rule 3: CO2 Capture from Amine Functionalization
+:MOFWithAmineFunctionalization a owl:Class ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf (
+            :MOF
+            [ a owl:Restriction ;
+              owl:onProperty syn:hasFunctionalization ;
+              owl:someValuesFrom [
+                  a owl:Class ;
+                  owl:intersectionOf (
+                      syn:Functionalization
+                      [ a owl:Restriction ;
+                        owl:onProperty syn:hasFunctionalizationType ;
+                        owl:someValuesFrom syn:AmineFunctionalization
+                      ]
+                  )
+              ]
+            ]
+        )
+    ] ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :hasCapability ;
+        owl:someValuesFrom :CO2CaptureCapability
+    ] ;
+    rdfs:comment "MOFs functionalized with amines have CO2 capture capability" .
+
+# Rule 4: Direct Air Capture (DAC) Capability
+:MOFWithDAC a owl:Class ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf (
+            :MOF
+            [ a owl:Restriction ;
+              owl:onProperty :hasComputationalProperty ;
+              owl:someValuesFrom [
+                  a owl:Class ;
+                  owl:intersectionOf (
+                      :ComputationalProperty
+                      [ a owl:Restriction ;
+                        owl:onProperty :propertyName ;
+                        owl:hasValue "CO2 uptake at LP"^^xsd:string
+                      ]
+                  )
+              ]
+            ]
+        )
+    ] ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :hasCapability ;
+        owl:someValuesFrom :DACCapability
+    ] ;
+    rdfs:comment "MOFs with CO2 uptake at low pressure have DAC capability" .
+
+# Rule 5: Methane Storage Capability
+:MOFWithCH4Storage a owl:Class ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf (
+            :MOF
+            [ a owl:Restriction ;
+              owl:onProperty :hasComputationalProperty ;
+              owl:someValuesFrom [
+                  a owl:Class ;
+                  owl:intersectionOf (
+                      :ComputationalProperty
+                      [ a owl:Restriction ;
+                        owl:onProperty :propertyName ;
+                        owl:someValuesFrom [
+                            a owl:Class ;
+                            owl:oneOf (
+                                "CH4 uptake"^^xsd:string
+                                "CH4 storage"^^xsd:string
+                                "CH4 delivery capacity"^^xsd:string
+                                "CH4 high pressure storage"^^xsd:string
+                            )
+                        ]
+                      ]
+                  )
+              ]
+            ]
+        )
+    ] ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :hasCapability ;
+        owl:someValuesFrom :MethaneStorageCapability
+    ] ;
+    rdfs:comment "MOFs with CH4 uptake/storage properties have methane storage capability" .
+
+# Rule 6: Hydrogen Storage Capability
+:MOFWithH2Storage a owl:Class ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf (
+            :MOF
+            [ a owl:Restriction ;
+              owl:onProperty :hasComputationalProperty ;
+              owl:someValuesFrom [
+                  a owl:Class ;
+                  owl:intersectionOf (
+                      :ComputationalProperty
+                      [ a owl:Restriction ;
+                        owl:onProperty :propertyName ;
+                        owl:hasValue "H2 uptake"^^xsd:string
+                      ]
+                  )
+              ]
+            ]
+        )
+    ] ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :hasCapability ;
+        owl:someValuesFrom :HydrogenStorageCapability
+    ] ;
+    rdfs:comment "MOFs with H2 uptake properties have hydrogen storage capability" .
+
+# Rule 7: Photocatalytic Capability (band gap 1.5-3.5 eV)
+:MOFWithPhotocatalyticProperty a owl:Class ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf (
+            :MOF
+            [ a owl:Restriction ;
+              owl:onProperty :hasComputationalProperty ;
+              owl:someValuesFrom [
+                  a owl:Class ;
+                  owl:intersectionOf (
+                      :ComputationalProperty
+                      [ a owl:Restriction ;
+                        owl:onProperty :propertyName ;
+                        owl:hasValue "Band gap"^^xsd:string
+                      ]
+                  )
+              ]
+            ]
+        )
+    ] ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :hasCapability ;
+        owl:someValuesFrom :PhotocatalyticCapability
+    ] ;
+    rdfs:comment "MOFs with band gap properties may have photocatalytic capability (value-based filtering can be done in queries)" .
+
+# Rule 8: Luminescent Sensing Capability
+:MOFWithLuminescence a owl:Class ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf (
+            :MOF
+            [ a owl:Restriction ;
+              owl:onProperty :hasPhysicalProperty ;
+              owl:someValuesFrom [
+                  a owl:Class ;
+                  owl:intersectionOf (
+                      :PhysicalProperty
+                      [ a owl:Restriction ;
+                        owl:onProperty :propertyName ;
+                        owl:someValuesFrom [
+                            a owl:Class ;
+                            owl:oneOf (
+                                "Luminescence"^^xsd:string
+                                "Fluorescence"^^xsd:string
+                                "Phosphorescence"^^xsd:string
+                            )
+                        ]
+                      ]
+                  )
+              ]
+            ]
+        )
+    ] ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :hasCapability ;
+        owl:someValuesFrom :LuminescentSensingCapability
+    ] ;
+    rdfs:comment "MOFs with luminescence properties have luminescent sensing capability" .
+
+# Rule 9: Catalysis Capability
+:MOFWithCatalysis a owl:Class ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf (
+            :MOF
+            [ a owl:Restriction ;
+              owl:onProperty :hasPhysicalProperty ;
+              owl:someValuesFrom [
+                  a owl:Class ;
+                  owl:intersectionOf (
+                      :PhysicalProperty
+                      [ a owl:Restriction ;
+                        owl:onProperty :propertyName ;
+                        owl:hasValue "Catalytic activity"^^xsd:string
+                      ]
+                  )
+              ]
+            ]
+        )
+    ] ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :hasCapability ;
+        owl:someValuesFrom :CatalysisCapability
+    ] ;
+    rdfs:comment "MOFs with catalytic activity have catalysis capability" .
+
