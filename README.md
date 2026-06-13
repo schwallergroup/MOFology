@@ -55,6 +55,6 @@ python studies/run_dac_screen.py
 
 ## Data Availability
 The raw datasets required for KG construction (e.g., OpenDAC25, QMOF, DigiMOF, etc.) should be downloaded from their respective sources and placed in the corresponding folders under `data/raw/`.
-
+The knowledge grpah itself is available for download on figshare 10.6084/m9.figshare.32666007
 ## License
 MIT License
