@@ -1,0 +1,49 @@
+weights:
+  co2_affinity: 0.34
+  hydrophobicity: 0.33
+  stability: 0.33
+
+scaling:
+  quantile_low: 0.05
+  quantile_high: 0.95
+
+filters:
+  min_total_confidence: 0.35
+  top_n_real: 200
+  top_n_hypothetical: 200
+  top_n_cards: 3
+  max_track_a_candidates: 20000
+
+criteria:
+  co2_affinity:
+    signals:
+      - CO2 binding energy
+      - CO2 Henry constant
+      - CO2 uptake at high pressure
+    preferred_direction:
+      CO2 binding energy: lower
+      CO2 Henry constant: higher
+      CO2 uptake at high pressure: higher
+  hydrophobicity:
+    signals:
+      - H2O binding energy
+    preferred_direction:
+      H2O binding energy: higher
+  stability:
+    signals:
+      - Thermal Stability
+      - Density
+      - Pore limiting diameter
+      - topology_frequency
+    preferred_direction:
+      Thermal Stability: higher
+      Density: higher
+      Pore limiting diameter: lower
+      topology_frequency: higher
+
+reliability:
+  min_r2_for_trust: 0.30
+  inferred_component_prior: 0.30
+  relation_delta_co2: 0.85
+  relation_delta_h2o: 0.27
+
