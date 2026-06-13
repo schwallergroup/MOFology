@@ -1,0 +1,23 @@
+# MOFology Knowledge Graph Construction Dependencies
+
+# Core RDF/OWL libraries
+rdflib>=6.0.0
+owlrl>=6.0.0  # OWL-RL reasoner for ontology reasoning
+
+# Data processing
+pandas>=1.5.0
+numpy>=1.23.0
+
+# Machine Learning & Embeddings
+torch>=2.0.0
+scikit-learn>=1.2.0
+xgboost>=1.7.0
+pecanpy>=2.0.0
+gensim>=4.3.0
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Utilities
+pathlib2>=2.3.0; python_version<"3.4"
